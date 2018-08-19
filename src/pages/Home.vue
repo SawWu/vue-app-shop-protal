@@ -46,6 +46,18 @@
     <floor-component :floorData="floor1" :floorTitle="floorName.floor1"/>
     <floor-component :floorData="floor2" :floorTitle="floorName.floor2"/>
     <floor-component :floorData="floor3" :floorTitle="floorName.floor3"/>
+    <div class="hot-area">
+      <div class="hot-title">热卖商品</div>
+      <div class="hot-goods">
+        <van-list>
+          <van-row gutter="20">
+            <van-col span="12" v-for="(item, index) in hotGoods" :key="index">
+              <goods-info :goodsImage="item.image" :goodsName="item.name" :goodsPrice="item.price"></goods-info>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -56,13 +68,15 @@
   import 'swiper/dist/css/swiper.css'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import FloorComponent from '../components/FloorComponent'
+  import goodsInfo from '../components/GoodsComponent'
 
   export default {
     name: 'Home',
     components: {
       swiper,
       swiperSlide,
-      FloorComponent
+      FloorComponent,
+      goodsInfo
     },
     data: () => ({
       locationIcon: location,
@@ -73,7 +87,10 @@
       floor1: [],
       floor2: [],
       floor3: [],
-      floorName: {}
+      floorName: {},
+      hotGoods: [],
+      loading: false,
+      finished: false
     }),
     filters: {
       moneyFilter(money) {
@@ -98,12 +115,17 @@
           this.floor2 = res.data.data.floor2;
           this.floor3 = res.data.data.floor3;
           this.floorName = res.data.data.floorName;
+          this.hotGoods = res.data.data.hotGoods;
         }
       }).catch((err) => {
 
       });
     },
-    methods: {}
+    methods: {
+      onLoad() {
+
+      }
+    }
   }
 </script>
 
@@ -173,6 +195,12 @@
         overflow: hidden;
       }
     }
+  }
+
+  .hot-area {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.8rem;
   }
 
 </style>
