@@ -37,16 +37,19 @@
             <div class="recommend-item">
               <img :src="item.image" width="80%"/>
               <div v-text="item.goodsName"></div>
-              <div>￥{{item.price}}</div>
+              <div>￥{{item.price | moneyFilter}}</div>
             </div>
           </swiper-slide>
         </swiper>
       </div>
     </div>
-    <floor-component :floorData="floor"/>
+    <floor-component :floorData="floor1" :floorTitle="floorName.floor1"/>
+    <floor-component :floorData="floor2" :floorTitle="floorName.floor2"/>
+    <floor-component :floorData="floor3" :floorTitle="floorName.floor3"/>
   </div>
 </template>
 <script>
+  import {toMoney} from '../filter/moneyFilter'
   import axios from 'axios'
   import {BASE_URL} from '../constants/serviceAPI'
   import location from '../assets/images/location.png'
@@ -67,8 +70,16 @@
       category: [],
       adBanner: '',
       recommendGoods: [],
-      floor: [],
+      floor1: [],
+      floor2: [],
+      floor3: [],
+      floorName: {}
     }),
+    filters: {
+      moneyFilter(money) {
+        return toMoney(money)
+      }
+    },
     computed: {
       swiperOption() {
         return {
@@ -83,7 +94,10 @@
           this.category = res.data.data.category;
           this.adBanner = res.data.data.advertesPicture;
           this.recommendGoods = res.data.data.recommend;
-          this.floor = res.data.data.floor1;
+          this.floor1 = res.data.data.floor1;
+          this.floor2 = res.data.data.floor2;
+          this.floor3 = res.data.data.floor3;
+          this.floorName = res.data.data.floorName;
         }
       }).catch((err) => {
 
