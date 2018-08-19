@@ -12,7 +12,8 @@
 
 <style lang="scss" scoped>
   #app {
-    height: 100%;
     position: relative;
+    background: #f0f0f0;
+    overflow: hidden;
   }
 </style>
